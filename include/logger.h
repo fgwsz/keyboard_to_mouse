@@ -1,0 +1,71 @@
+﻿#pragma once
+#include<iostream>
+#include<type_traits>
+
+class Logger{
+private:
+    static bool global_enable_;
+    bool enable_;
+    ::std::string head_;
+public:
+    Logger(bool enable,::std::string const& head)
+        :enable_(enable)
+        ,head_(head)
+    {
+        this->_printInit();
+    }
+    Logger():Logger(true,"")
+    {}
+    Logger& setEnable(bool enable){ 
+        this->enable_=enable;
+        return *this;
+    }
+    Logger& setHead(::std::string const& head){
+        this->head_=head;
+        return *this;
+    }
+    static void setGlobalEnable(bool global_enable){
+        Logger::global_enable_=global_enable;
+    }
+private:
+    template<typename _Type>
+    void _print(_Type&& arg){
+        ::std::cout<<::std::forward<_Type>(arg);
+    }
+    void _printInit(){
+        this->_print(::std::unitbuf);// 设置无缓冲区输出
+    }
+    void _print(){}
+    template<typename _Type,typename..._Types>
+    void _print(_Type&& arg,_Types&&...args){
+        this->_print(::std::forward<_Type>(arg));
+        if constexpr(sizeof...(args)!=0){
+            this->_print(::std::forward<_Types>(args)...);
+        }else{
+            this->_print();
+        }
+    }
+    template<typename..._Types>
+    void _println(_Types&&...args){
+        this->_print(::std::forward<_Types>(args)...);
+        this->_print('\n'); 
+    }
+public:
+    template<typename..._Types>
+    Logger& print(_Types&&...args){
+        if(this->global_enable_&&this->enable_){
+            this->_print(this->head_);
+            this->_print(::std::forward<_Types>(args)...);
+        }
+        return *this;
+    }
+    template<typename..._Types>
+    Logger& println(_Types&&...args){
+        if(this->global_enable_&&this->enable_){
+            this->_print(this->head_);
+            this->_println(::std::forward<_Types>(args)...);
+        }
+        return *this;
+    }
+};
+bool Logger::global_enable_=true;

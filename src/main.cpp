@@ -1,4 +1,4 @@
-#include"logger.h"
+﻿#include"logger.h"
 #include"mouse.h"
 #include"keyboard.h"
 
@@ -24,21 +24,45 @@ static bool logger_global_enable=[]{
 static Logger mouse_logger(true,"[MOU] ");
 static Logger keyboard_logger(true,"[KEY] ");
 static Logger exe_logger(true,"[EXE] ");
+static Logger hook_logger(true,"[HOO] " );
 
 // 全局键盘钩子回调函数
 static LRESULT CALLBACK _keyBoardCallBack(int n_code, WPARAM w_param, LPARAM l_param);
 
+// 全局钩子外覆类
+class Hook final{
+    HHOOK h_hook_;
+public:
+    Hook(HHOOK h_hook):h_hook_(h_hook){
+        if(this->h_hook_){
+            hook_logger.println("HOOK INSTALL OK");
+        }else{
+            hook_logger.println("HOOK INSTALL ERROR");
+            exit(1);
+        }
+    }
+    // 析构时自动卸载全局钩子
+    ~Hook(){
+        if(this->h_hook_&&UnhookWindowsHookEx(this->h_hook_)){
+            hook_logger.println("HOOK UNINSTALL OK");
+        }else{
+            hook_logger.println("HOOK UNINSTALL ERROR");
+        }
+    }
+};
+
+// 安装全局键盘钩子
+static Hook h_hook={SetWindowsHookEx(WH_KEYBOARD_LL, _keyBoardCallBack, NULL, 0)};
+// 设置为静态变量而不设置为main函数局部变量的原因：
+// 在进程结束时自动回收静态变量，从而调用析构函数卸载全局钩子
+
 int main() {
-    // 安装全局键盘钩子
-    HHOOK h_hook = SetWindowsHookEx(WH_KEYBOARD_LL, _keyBoardCallBack, NULL, 0);
     // 消息循环
     MSG msg;
     while (GetMessage(&msg, NULL, 0, 0)) {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
-    // 卸载全局钩子
-    UnhookWindowsHookEx(h_hook);
     return 0;
 }
 

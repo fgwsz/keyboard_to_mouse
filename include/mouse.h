@@ -44,10 +44,9 @@ private:
     static void _mouseWheel(DWORD scroll_amount);
 public:
     static DWORD current_dpixel_;
-    static DWORD const default_dpixel_;
+    static constexpr DWORD default_dpixel_=16;
 };
 
-DWORD const Mouse::default_dpixel_=16;
 DWORD Mouse::current_dpixel_=Mouse::default_dpixel_;
 
 void Mouse::_mouseClick(DWORD dw_flags){

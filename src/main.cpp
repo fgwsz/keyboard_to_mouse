@@ -43,7 +43,7 @@ int main() {
 }
 
 static LRESULT CALLBACK _keyBoardCallBack(int n_code, WPARAM w_param, LPARAM l_param) {
-    static constexpr DWORD leader_keycode=164;//left alt
+    static constexpr DWORD leader_keycode=164;/*key code of `LeftAlt`*/
     static bool is_leader_down=false;
     static bool is_mouse_left_down=false;
     static bool is_mouse_right_down=false;

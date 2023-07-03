@@ -6,7 +6,7 @@
 class KeyBoard{
 public:
     // 将输入的键盘按键值转化为按键名称
-    static ::std::string keyCodeToName(DWORD key_code);
+    static ::std::string const& keyCodeToName(DWORD key_code);
 private:
     static ::std::unordered_map<DWORD,::std::string> _key_code_to_name_map;
     static void _emplace(DWORD key_code,::std::string const& key_name);
@@ -68,7 +68,7 @@ bool KeyBoard::_init(){
     KeyBoard::_emplace(191,"/"          );
     return true;
 }
-::std::string KeyBoard::keyCodeToName(DWORD key_code){
+::std::string const& KeyBoard::keyCodeToName(DWORD key_code){
     if(!KeyBoard::_init_flag){
         KeyBoard::_init();
         KeyBoard::_init_flag=true;

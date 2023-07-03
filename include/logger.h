@@ -7,13 +7,12 @@ private:
     static bool global_enable_;
     bool enable_;
     ::std::string head_;
+    static bool init_flag_;
 public:
     Logger(bool enable,::std::string const& head)
         :enable_(enable)
         ,head_(head)
-    {
-        this->_printInit();
-    }
+    {}
     Logger():Logger(true,"")
     {}
     Logger& setEnable(bool enable){ 
@@ -32,18 +31,13 @@ private:
     void _print(_Type&& arg){
         ::std::cout<<::std::forward<_Type>(arg);
     }
-    void _printInit(){
-        this->_print(::std::unitbuf);// 设置无缓冲区输出
-    }
     void _print(){}
     template<typename _Type,typename..._Types>
     void _print(_Type&& arg,_Types&&...args){
         this->_print(::std::forward<_Type>(arg));
         if constexpr(sizeof...(args)!=0){
             this->_print(::std::forward<_Types>(args)...);
-        }else{
-            this->_print();
-        }
+        }    
     }
     template<typename..._Types>
     void _println(_Types&&...args){
@@ -68,4 +62,11 @@ public:
         return *this;
     }
 };
+
 bool Logger::global_enable_=true;
+
+bool Logger::init_flag_=[&](){ // 优化::std::cout输出性能
+    ::std::ios::sync_with_stdio(false); // 关闭与stdio的同步
+    ::std::cout<<::std::unitbuf; // 设置为无缓冲区
+    return true;
+}();

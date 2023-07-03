@@ -88,8 +88,9 @@ static LRESULT CALLBACK _keyBoardCallBack(int n_code, WPARAM w_param, LPARAM l_p
             mouse_position.y,")"
         );
     };
+    static KBDLLHOOKSTRUCT* p_key_data=nullptr;
     if (n_code == HC_ACTION) {
-        KBDLLHOOKSTRUCT* p_key_data = (KBDLLHOOKSTRUCT*)l_param;
+        p_key_data = (KBDLLHOOKSTRUCT*)l_param;
         // 检查按下的键
         if (w_param == WM_KEYDOWN || w_param == WM_SYSKEYDOWN) {
             // 打印按键信息
@@ -102,15 +103,17 @@ static LRESULT CALLBACK _keyBoardCallBack(int n_code, WPARAM w_param, LPARAM l_p
             if(p_key_data->vkCode==leader_keycode){
                 is_leader_down=true;
             }
+            // 检查leader键是否处于按下状态，若处于按下状态，则继续
+            else if(!is_leader_down){}
             // <leader h>按下时 鼠标左移
-            else if(is_leader_down&&p_key_data->vkCode=='H'/*vim h*/){ 
+            else if(p_key_data->vkCode=='H'/*vim h*/){ 
                 mouse_logger.println("MOUSE MOVE LEFT");
                 println_mouse_position_before_move();
                 Mouse::mouseMoveLeft();
                 println_mouse_position_after_move();
             }
             // <leader j>按下时 鼠标下移
-            else if(is_leader_down&&p_key_data->vkCode=='J'/*vim j*/){
+            else if(p_key_data->vkCode=='J'/*vim j*/){
                 mouse_logger.println("MOUSE MOVE DOWN");
                 println_mouse_position_before_move();
                 Mouse::mouseMoveDown();
@@ -118,111 +121,43 @@ static LRESULT CALLBACK _keyBoardCallBack(int n_code, WPARAM w_param, LPARAM l_p
                 println_mouse_position_after_move();
             }
             // <leader k>按下时 鼠标上移
-            else if(is_leader_down&&p_key_data->vkCode=='K'/*vim k*/){
+            else if(p_key_data->vkCode=='K'/*vim k*/){
                 mouse_logger.println("MOUSE MOVE UP");
                 println_mouse_position_before_move();
                 Mouse::mouseMoveUp();
                 println_mouse_position_after_move();
             }
             // <leader l>按下时 鼠标右移
-            else if(is_leader_down&&p_key_data->vkCode=='L'/*vim l*/){
+            else if(p_key_data->vkCode=='L'/*vim l*/){
                 mouse_logger.println("MOUSE MOVE RIGHT");
                 println_mouse_position_before_move();
                 Mouse::mouseMoveRight();
                 println_mouse_position_after_move();
             }
-            // <leader o>按下时(鼠标左右键没有按下时) 鼠标左键单击
-            else if(
-                is_leader_down&&p_key_data->vkCode=='O'/*gba o*/&&
-                !is_mouse_left_down&&
-                !is_mouse_right_down
-            ){
-                mouse_logger.println("MOUSE LEFT CLICK");
-                Mouse::mouseLeftClick();
-            }
-            // <leader a>按下时(鼠标左右键没有按下时) 鼠标左键双击
-            else if(
-                is_leader_down&&p_key_data->vkCode=='A'/*gba a*/&&
-                !is_mouse_left_down&&
-                !is_mouse_right_down
-            ){
-                mouse_logger.println("MOUSE LEFT DOUBLE CLICK");
-                Mouse::mouseLeftDoubleClick();
-            }
-            // <leader x>按下时(鼠标左右键没有按下时) 鼠标右键单击
-            else if(
-                is_leader_down&&p_key_data->vkCode=='X'/*gba x*/&&
-                !is_mouse_left_down&&
-                !is_mouse_right_down
-            ){
-                mouse_logger.println("MOUSE RIGHT CLICK");
-                Mouse::mouseRightClick();
-            }
             // <leader b>按下时 鼠标滚轮上滑
-            else if(is_leader_down&&p_key_data->vkCode=='B'/*back*/){
+            else if(p_key_data->vkCode=='B'/*back*/){
                 mouse_logger.println("MOUSE WHEEL UP");
                 Mouse::mouseWheelUp();
             }
             // <leader n>按下时 鼠标滚轮下滑
-            else if(is_leader_down&&p_key_data->vkCode=='N'/*next*/){
+            else if(p_key_data->vkCode=='N'/*next*/){
                 mouse_logger.println("MOUSE WHEEL DOWN");
                 Mouse::mouseWheelDown();
             }
-            // <leader s>按下时(鼠标左右键没有按下时) 鼠标左键按下
-            else if(
-                is_leader_down&&p_key_data->vkCode=='S'/*select*/&&
-                !is_mouse_left_down&&
-                !is_mouse_right_down
-            ){
-                mouse_logger.println("MOUSE LEFT DOWN");
-                Mouse::mouseLeftDown();
-                is_mouse_left_down=true;
-            }
-            // <leader i>按下时(鼠标左右键没有按下时) 鼠标右键按下
-            else if(
-                is_leader_down&&p_key_data->vkCode=='I'/*invert select*/&&
-                !is_mouse_left_down&&
-                !is_mouse_right_down
-            ){
-                mouse_logger.println("MOUSE RIGHT DOWN");
-                Mouse::mouseRightDown();
-                is_mouse_right_down=true;
-            }
-            // <leader u>按下时(鼠标左右键按下时) 鼠标左/右键松开
-            else if(
-                is_leader_down&&p_key_data->vkCode=='U'/*un select*/&&
-                (is_mouse_left_down||is_mouse_right_down)
-            ){
-                if(is_mouse_left_down){
-                    mouse_logger.println("MOUSE LEFT UP");
-                    Mouse::mouseLeftUp();
-                    is_mouse_left_down=false;
-                }else{
-                    mouse_logger.println("MOUSE RIGHT UP");
-                    Mouse::mouseRightUp();
-                    is_mouse_right_down=false;
-                }
-            }
             // <leader q>按下时 程序退出
-            else if(
-                is_leader_down&&p_key_data->vkCode=='Q'/*quit*/
-            ){
+            else if(p_key_data->vkCode=='Q'/*quit*/){
                 exe_logger.println("EXE QUIT");
                 exit(0);
             }
             // <leader 2>按下时 鼠标移动/滚轮滑动距离翻倍
-            else if(
-                is_leader_down&&p_key_data->vkCode=='2'
-            ){
+            else if(p_key_data->vkCode=='2'){
                 mouse_logger.println("MOUSE D_PIXEL * 2");
                 mouse_logger.println("MOUSE D_PIXEL BEFORE IS ",Mouse::current_dpixel_);
                 Mouse::current_dpixel_=Mouse::current_dpixel_*2;
                 mouse_logger.println("MOUSE D_PIXEL AFTER  IS ",Mouse::current_dpixel_);
             }
             // <leader ->按下时 鼠标移动/滚轮滑动距离减半
-            else if(
-                is_leader_down&&p_key_data->vkCode==189/*key code of `-`*/
-            ){
+            else if(p_key_data->vkCode==189/*key code of `-`*/){
                 mouse_logger.println("MOUSE D_PIXEL / 2");
                 mouse_logger.println("MOUSE D_PIXEL BEFORE IS ",Mouse::current_dpixel_);
                 Mouse::current_dpixel_=Mouse::current_dpixel_/2==0
@@ -231,9 +166,51 @@ static LRESULT CALLBACK _keyBoardCallBack(int n_code, WPARAM w_param, LPARAM l_p
                 ;
                 mouse_logger.println("MOUSE D_PIXEL AFTER  IS ",Mouse::current_dpixel_);
             }
+            // 鼠标左右键至少有一个处于按下状态时，若都不处于按下状态，则继续
+            else if(is_mouse_left_down||is_mouse_right_down){
+                // <leader u>按下时(鼠标左右键按下时) 鼠标左/右键松开
+                if(p_key_data->vkCode=='U'/*un select*/){
+                    if(is_mouse_left_down){
+                        mouse_logger.println("MOUSE LEFT UP");
+                        Mouse::mouseLeftUp();
+                        is_mouse_left_down=false;
+                    }else{
+                        mouse_logger.println("MOUSE RIGHT UP");
+                        Mouse::mouseRightUp();
+                        is_mouse_right_down=false;
+                    }
+                }
+            }
+            // <leader o>按下时(鼠标左右键没有按下时) 鼠标左键单击
+            else if(p_key_data->vkCode=='O'/*gba o*/){
+                mouse_logger.println("MOUSE LEFT CLICK");
+                Mouse::mouseLeftClick();
+            }
+            // <leader a>按下时(鼠标左右键没有按下时) 鼠标左键双击
+            else if(p_key_data->vkCode=='A'/*gba a*/){
+                mouse_logger.println("MOUSE LEFT DOUBLE CLICK");
+                Mouse::mouseLeftDoubleClick();
+            }
+            // <leader x>按下时(鼠标左右键没有按下时) 鼠标右键单击
+            else if(p_key_data->vkCode=='X'/*gba x*/){
+                mouse_logger.println("MOUSE RIGHT CLICK");
+                Mouse::mouseRightClick();
+            }
+            // <leader s>按下时(鼠标左右键没有按下时) 鼠标左键按下
+            else if(p_key_data->vkCode=='S'/*select*/){
+                mouse_logger.println("MOUSE LEFT DOWN");
+                Mouse::mouseLeftDown();
+                is_mouse_left_down=true;
+            }
+            // <leader i>按下时(鼠标左右键没有按下时) 鼠标右键按下
+            else if(p_key_data->vkCode=='I'/*invert select*/){
+                mouse_logger.println("MOUSE RIGHT DOWN");
+                Mouse::mouseRightDown();
+                is_mouse_right_down=true;
+            }
         }
         // 检查松开的键盘
-        if (w_param == WM_KEYUP || w_param == WM_SYSKEYUP) {
+        else if (w_param == WM_KEYUP || w_param == WM_SYSKEYUP) {
             // 打印按键信息
             keyboard_logger.println(
                 "<",KeyBoard::keyCodeToName(p_key_data->vkCode),">",

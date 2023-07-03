@@ -21,24 +21,39 @@ bool KeyBoard::_init_flag=[&](){
     for(DWORD key_code='0';key_code<='9';++key_code){
         KeyBoard::_key_code_to_name_map.emplace(key_code,::std::string(1,key_code));
     }
-    KeyBoard::_key_code_to_name_map.emplace(160,"LeftShift"  );
-    KeyBoard::_key_code_to_name_map.emplace(161,"RightShfit" );
-    KeyBoard::_key_code_to_name_map.emplace(162,"LeftCtrl"   );
-    KeyBoard::_key_code_to_name_map.emplace(163,"RightCtrl"  );
-    KeyBoard::_key_code_to_name_map.emplace(164,"LeftAlt"    );
-    KeyBoard::_key_code_to_name_map.emplace(165,"RightAlt"   );
-    KeyBoard::_key_code_to_name_map.emplace(27 ,"Esc"        );
-    KeyBoard::_key_code_to_name_map.emplace(9  ,"Tab"        );
     KeyBoard::_key_code_to_name_map.emplace(8  ,"Backspace"  );
+    KeyBoard::_key_code_to_name_map.emplace(9  ,"Tab"        );
     KeyBoard::_key_code_to_name_map.emplace(13 ,"Enter"      );
+
+    KeyBoard::_key_code_to_name_map.emplace(19 ,"PauseBreak" );
     KeyBoard::_key_code_to_name_map.emplace(20 ,"CapsLk"     );
-    KeyBoard::_key_code_to_name_map.emplace(93 ,"Application");
+
+    KeyBoard::_key_code_to_name_map.emplace(27 ,"Esc"        );
+
     KeyBoard::_key_code_to_name_map.emplace(32 ,"Space"      );
-    KeyBoard::_key_code_to_name_map.emplace(38 ,"Up"         );
-    KeyBoard::_key_code_to_name_map.emplace(40 ,"Down"       );
+    KeyBoard::_key_code_to_name_map.emplace(33 ,"PageUp"     );
+    KeyBoard::_key_code_to_name_map.emplace(34 ,"PageDown"   );
+    KeyBoard::_key_code_to_name_map.emplace(35 ,"End"        );
+    KeyBoard::_key_code_to_name_map.emplace(36 ,"Home"       );
     KeyBoard::_key_code_to_name_map.emplace(37 ,"Left"       );
+    KeyBoard::_key_code_to_name_map.emplace(38 ,"Up"         );
     KeyBoard::_key_code_to_name_map.emplace(39 ,"Right"      );
-    KeyBoard::_key_code_to_name_map.emplace(91 ,"Win"        );
+    KeyBoard::_key_code_to_name_map.emplace(40 ,"Down"       );
+
+    KeyBoard::_key_code_to_name_map.emplace(44 ,"PrintScreen");
+    KeyBoard::_key_code_to_name_map.emplace(45 ,"Insert"     );
+    KeyBoard::_key_code_to_name_map.emplace(46 ,"Delete"     );
+
+    KeyBoard::_key_code_to_name_map.emplace(91 ,"LeftWin"    );
+    KeyBoard::_key_code_to_name_map.emplace(92 ,"RightWin"   );
+    KeyBoard::_key_code_to_name_map.emplace(93 ,"Application");
+
+    KeyBoard::_key_code_to_name_map.emplace(106,"*"         );
+    KeyBoard::_key_code_to_name_map.emplace(107,"+"         );
+
+    KeyBoard::_key_code_to_name_map.emplace(109,"-"         );
+
+    KeyBoard::_key_code_to_name_map.emplace(111,"/"         );
     KeyBoard::_key_code_to_name_map.emplace(112,"F1"         );
     KeyBoard::_key_code_to_name_map.emplace(113,"F2"         );
     KeyBoard::_key_code_to_name_map.emplace(114,"F3"         );
@@ -51,16 +66,29 @@ bool KeyBoard::_init_flag=[&](){
     KeyBoard::_key_code_to_name_map.emplace(121,"F10"        );
     KeyBoard::_key_code_to_name_map.emplace(122,"F11"        );
     KeyBoard::_key_code_to_name_map.emplace(123,"F12"        );
-    KeyBoard::_key_code_to_name_map.emplace(189,"-"          );
-    KeyBoard::_key_code_to_name_map.emplace(187,"="          );
-    KeyBoard::_key_code_to_name_map.emplace(219,"["          );
-    KeyBoard::_key_code_to_name_map.emplace(221,"]"          );
-    KeyBoard::_key_code_to_name_map.emplace(220,"|"          );
+
+    KeyBoard::_key_code_to_name_map.emplace(144,"NumLock"    );
+    KeyBoard::_key_code_to_name_map.emplace(145,"ScrollLock" );
+
+    KeyBoard::_key_code_to_name_map.emplace(160,"LeftShift"  );
+    KeyBoard::_key_code_to_name_map.emplace(161,"RightShfit" );
+    KeyBoard::_key_code_to_name_map.emplace(162,"LeftCtrl"   );
+    KeyBoard::_key_code_to_name_map.emplace(163,"RightCtrl"  );
+    KeyBoard::_key_code_to_name_map.emplace(164,"LeftAlt"    );
+    KeyBoard::_key_code_to_name_map.emplace(165,"RightAlt"   );
+
     KeyBoard::_key_code_to_name_map.emplace(186,";"          );
-    KeyBoard::_key_code_to_name_map.emplace(222,"\'"         );
+    KeyBoard::_key_code_to_name_map.emplace(187,"="          );
     KeyBoard::_key_code_to_name_map.emplace(188,","          );
+    KeyBoard::_key_code_to_name_map.emplace(189,"-"          );
     KeyBoard::_key_code_to_name_map.emplace(190,"."          );
     KeyBoard::_key_code_to_name_map.emplace(191,"/"          );
+    KeyBoard::_key_code_to_name_map.emplace(192,"`"          );
+
+    KeyBoard::_key_code_to_name_map.emplace(219,"["          );
+    KeyBoard::_key_code_to_name_map.emplace(220,"|"          );
+    KeyBoard::_key_code_to_name_map.emplace(221,"]"          );
+    KeyBoard::_key_code_to_name_map.emplace(222,"\'"         );
     return true;
 }();
 

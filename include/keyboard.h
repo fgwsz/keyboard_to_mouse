@@ -10,11 +10,14 @@ public:
 private:
     static ::std::unordered_map<DWORD,::std::string> _key_code_to_name_map;
     static bool _init_flag;
+    static bool _init();
 };
 
 ::std::unordered_map<DWORD,::std::string> KeyBoard::_key_code_to_name_map{};
 
-bool KeyBoard::_init_flag=[&](){
+bool KeyBoard::_init_flag=KeyBoard::_init();
+
+bool KeyBoard::_init(){
     for(DWORD key_code='A';key_code<='Z';++key_code){
         KeyBoard::_key_code_to_name_map.emplace(key_code,::std::string(1,key_code));
     }
@@ -90,7 +93,7 @@ bool KeyBoard::_init_flag=[&](){
     KeyBoard::_key_code_to_name_map.emplace(221,"]"          );
     KeyBoard::_key_code_to_name_map.emplace(222,"\'"         );
     return true;
-}();
+}
 
 ::std::string const& KeyBoard::keyCodeToName(DWORD key_code){
     if(KeyBoard::_key_code_to_name_map.count(key_code)==0){

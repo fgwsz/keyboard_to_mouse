@@ -44,6 +44,7 @@ private:
         this->_print(::std::forward<_Types>(args)...);
         this->_print('\n'); 
     }
+    static bool _init();
 public:
     template<typename..._Types>
     Logger& print(_Types&&...args){
@@ -65,8 +66,10 @@ public:
 
 bool Logger::global_enable_=true;
 
-bool Logger::init_flag_=[&](){ // 优化::std::cout输出性能
+bool Logger::init_flag_=Logger::_init();
+
+bool Logger::_init(){ // 优化::std::cout输出性能
     ::std::ios::sync_with_stdio(false); // 关闭与stdio的同步
     ::std::cout<<::std::unitbuf; // 设置为无缓冲区
     return true;
-}();
+}

@@ -72,7 +72,7 @@ static LRESULT CALLBACK _keyBoardCallBack(int n_code, WPARAM w_param, LPARAM l_p
     static bool is_mouse_left_down=false;
     static bool is_mouse_right_down=false;
     static Mouse::Position mouse_position={};
-    static auto println_mouse_position_before_move=[&](){
+    static auto println_mouse_position_before_move=[&]{
         Mouse::mousePosition(mouse_position);
         mouse_logger.println(
             "MOUSE MOVE BEFORE POSITION(",
@@ -80,7 +80,7 @@ static LRESULT CALLBACK _keyBoardCallBack(int n_code, WPARAM w_param, LPARAM l_p
             mouse_position.y,")"
         );
     };
-    static auto println_mouse_position_after_move=[&](){
+    static auto println_mouse_position_after_move=[&]{
         Mouse::mousePosition(mouse_position);
         mouse_logger.println(
             "MOUSE MOVE AFTER  POSITION(",

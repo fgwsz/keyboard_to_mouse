@@ -61,9 +61,9 @@ void Mouse::_mouseClick(DWORD dw_flags){
     SendInput(1, &input, sizeof(INPUT));
 }
 void Mouse::_mouseMove(LONG dx,LONG dy){
-    POINT cursorPos;
-    GetCursorPos(&cursorPos);
-    SetCursorPos(cursorPos.x+dx, cursorPos.y+dy);
+    POINT cursor_pos;
+    GetCursorPos(&cursor_pos);
+    SetCursorPos(cursor_pos.x+dx, cursor_pos.y+dy);
 }
 void Mouse::_mouseWheel(DWORD scroll_amount){
     INPUT input;

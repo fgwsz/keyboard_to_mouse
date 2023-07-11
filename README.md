@@ -1,12 +1,17 @@
-# 项目
-在windows平台上用键盘来模拟鼠标操作。
+# KeyBoardToMouse(KTM)
+使用键盘快捷键来模拟鼠标操作（仅适用于Windows操作系统）。
+开启本应用之后，会在终端窗口中实时显示用户输入的全局键盘信息和应用调试信息，
+并实时将键盘快捷键映射为对应的鼠标操作。
 
 # 安装
-无需安装，直接点击`keyboard_to_mouse.exe`即可运行。
+无需安装，鼠标左键双击`keyboard_to_mouse.exe`文件即可运行。
+`keyboard_to_mouse.exe`本身是控制台应用，
+因此能在终端中通过终端命令/脚本等方式调用运行。
 
 # 设置为开机启动
-右键点击Windows桌面开始按钮，在弹出的菜单中选择“运行”菜单项。
-这时会打开Windows的运行窗口，在窗口中输入命令`shell:startup`，然后点击确定按钮。
+鼠标右键单击Windows桌面开始按钮，在弹出的菜单中选择`运行`菜单项。
+这时会打开Windows的运行窗口，在窗口中输入命令`shell:startup`，
+然后点击`确定`按钮，会打开一个资源管理器窗口并显示一个特殊的文件夹路径。
 把需要开机启动的应用或是程序的快捷方式放到该文件夹中，
 这样以后电脑开机的时候，就会自动启动这些应用。
 综上，新建一个`keyboard_to_mouse.exe`的快捷方式放到上述文件夹中即可。
@@ -19,34 +24,34 @@
 # 键盘快捷键说明
 如下快捷键均表示：按住`LeftAlt`键的情况下再按一次某个键。
 
-其中`LeftAlt`键指的是空格键左边的Alt键。
+注意：`LeftAlt`键指的是空格键左边的Alt键；字母键不区分大小写，大小写通用。
 
-`LeftAlt h` 鼠标向左移动
+`LeftAlt H` 鼠标向左移动
 
-`LeftAlt j` 鼠标向下移动
+`LeftAlt J` 鼠标向下移动
 
-`LeftAlt k` 鼠标向上移动
+`LeftAlt K` 鼠标向上移动
 
-`LeftAlt l` 鼠标向右移动
+`LeftAlt L` 鼠标向右移动
 
-`LeftAlt o` 鼠标左键单击
+`LeftAlt O` 鼠标左键单击
 
-`LeftAlt a` 鼠标左键双击
+`LeftAlt A` 鼠标左键双击
 
-`LeftAlt x` 鼠标右键单击
+`LeftAlt X` 鼠标右键单击
 
-`LeftAlt b` 鼠标滚轮上滑
+`LeftAlt B` 鼠标滚轮上滑
 
-`LeftAlt n` 鼠标滚轮下滑
+`LeftAlt N` 鼠标滚轮下滑
 
-`LeftAlt g` 鼠标左键按下
+`LeftAlt G` 鼠标左键按下
 
-`LeftAlt i` 鼠标右键按下
+`LeftAlt I` 鼠标右键按下
 
-`LeftAlt u` 鼠标左/右键松开
+`LeftAlt U` 鼠标左/右键松开
 
 `LeftAlt 2` 鼠标移动/滚轮滑动距离翻倍（重复按效果可叠加）
 
 `LeftAlt -` 鼠标移动/滚轮滑动距离减半（重复按效果可叠加，最低削减到1个像素）
 
-`LeftAlt q` 退出程序
+`LeftAlt Q` 退出应用程序

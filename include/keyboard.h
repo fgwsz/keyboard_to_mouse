@@ -9,153 +9,203 @@ public:
     static ::std::string const& keyCodeToName(DWORD key_code);
 private:
     static ::std::unordered_map<DWORD,::std::string> key_code_to_name_map_;
-    static bool init_flag_;
-    static bool _init();
 };
 
-::std::unordered_map<DWORD,::std::string> KeyBoard::key_code_to_name_map_{};
+enum KeyCode{
 
-bool KeyBoard::init_flag_=KeyBoard::_init();
+    KeyCode_A='A',
+    KeyCode_B='B',
+    KeyCode_C='C',
+    KeyCode_D='D',
+    KeyCode_E='E',
+    KeyCode_F='F',
+    KeyCode_G='G',
+    KeyCode_H='H',
+    KeyCode_I='I',
+    KeyCode_J='J',
+    KeyCode_K='K',
+    KeyCode_L='L',
+    KeyCode_M='M',
+    KeyCode_N='N',
+    KeyCode_O='O',
+    KeyCode_P='P',
+    KeyCode_Q='Q',
+    KeyCode_R='R',
+    KeyCode_S='S',
+    KeyCode_T='T',
+    KeyCode_U='U',
+    KeyCode_V='V',
+    KeyCode_W='W',
+    KeyCode_X='X',
+    KeyCode_Y='Y',
+    KeyCode_Z='Z',
 
-enum class KeyCode{
-    Backspace  =8  ,
-    Tab        =9  ,
-    Enter      =13 ,
-    PauseBreak =19 ,
-    CapsLk     =20 ,
-    Esc        =27 ,
-    Space      =32 ,
-    PageUp     =33 ,
-    PageDown   =34 ,
-    End        =35 ,
-    Home       =36 ,
-    Left       =37 ,
-    Up         =38 ,
-    Right      =39 ,
-    Down       =40 ,
-    PrintScreen=44 ,
-    Insert     =45 ,
-    Delete     =46 ,
-    LeftWin    =91 ,
-    RightWin   =92 ,
-    Application=93 ,
-    Multiply   =106,// Operator*
-    Plus       =107,// Operator+
-    Minus      =109,// Operator-
-    Divide     =111,// Operator/
-    F1         =112,
-    F2         =113,
-    F3         =114,
-    F4         =115,
-    F5         =116,
-    F6         =117,
-    F7         =118,
-    F8         =119,
-    F9         =120,
-    F10        =121,
-    F11        =122,
-    F12        =123,
-    NumLock    =144,
-    ScrollLock =145,
-    LeftShift  =160,
-    RightShfit =161,
-    LeftCtrl   =162,
-    RightCtrl  =163,
-    LeftAlt    =164,
-    RightAlt   =165,
-    Semicolon  =186,// ;
-    Equal      =187,// =
-    Comma      =188,// ,
-    Dash       =189,// -
-    FullStop   =190,// .
-    Slash      =191,// /
-    BackQuote  =192,// `
-// TODO
-               =219,// [
-               =220,// |
-               =221,// ]
-    SingleQuote=222,// '
+    KeyCode_0='0',
+    KeyCode_1='1',
+    KeyCode_2='2',
+    KeyCode_3='3',
+    KeyCode_4='4',
+    KeyCode_5='5',
+    KeyCode_6='6',
+    KeyCode_7='7',
+    KeyCode_8='8',
+    KeyCode_9='9',
 
-
+    KeyCode_Backspace         =8  ,
+    KeyCode_Tab               =9  ,
+    KeyCode_Enter             =13 ,
+    KeyCode_PauseBreak        =19 ,
+    KeyCode_CapsLk            =20 ,
+    KeyCode_Esc               =27 ,
+    KeyCode_Space             =32 ,
+    KeyCode_PageUp            =33 ,
+    KeyCode_PageDown          =34 ,
+    KeyCode_End               =35 ,
+    KeyCode_Home              =36 ,
+    KeyCode_Left              =37 ,
+    KeyCode_Up                =38 ,
+    KeyCode_Right             =39 ,
+    KeyCode_Down              =40 ,
+    KeyCode_PrintScreen       =44 ,
+    KeyCode_Insert            =45 ,
+    KeyCode_Delete            =46 ,
+    KeyCode_LeftWin           =91 ,
+    KeyCode_RightWin          =92 ,
+    KeyCode_Application       =93 ,
+    KeyCode_Multiply          =106,// Operator*
+    KeyCode_Plus              =107,// Operator+
+    KeyCode_Minus             =109,// Operator-
+    KeyCode_Divide            =111,// Operator/
+    KeyCode_F1                =112,
+    KeyCode_F2                =113,
+    KeyCode_F3                =114,
+    KeyCode_F4                =115,
+    KeyCode_F5                =116,
+    KeyCode_F6                =117,
+    KeyCode_F7                =118,
+    KeyCode_F8                =119,
+    KeyCode_F9                =120,
+    KeyCode_F10               =121,
+    KeyCode_F11               =122,
+    KeyCode_F12               =123,
+    KeyCode_NumLock           =144,
+    KeyCode_ScrollLock        =145,
+    KeyCode_LeftShift         =160,
+    KeyCode_RightShfit        =161,
+    KeyCode_LeftCtrl          =162,
+    KeyCode_RightCtrl         =163,
+    KeyCode_LeftAlt           =164,
+    KeyCode_RightAlt          =165,
+    KeyCode_Semicolon         =186,// ;
+    KeyCode_Equal             =187,// =
+    KeyCode_Comma             =188,// ,
+    KeyCode_Hyphen            =189,// -
+    KeyCode_Period            =190,// .
+    KeyCode_Slash             =191,// /
+    KeyCode_BackQuote         =192,// `
+    KeyCode_LeftSquareBracket =219,// [
+    KeyCode_VerticalBar       =220,// |
+    KeyCode_RightSquareBracket=221,// ]
+    KeyCode_SingleQuote       =222 // '
 };
 
-bool KeyBoard::_init(){
-    for(DWORD key_code='A';key_code<='Z';++key_code){
-        KeyBoard::key_code_to_name_map_.emplace(key_code,::std::string(1,key_code));
-    }
-    for(DWORD key_code='0';key_code<='9';++key_code){
-        KeyBoard::key_code_to_name_map_.emplace(key_code,::std::string(1,key_code));
-    }
-    KeyBoard::key_code_to_name_map_.emplace(8  ,"Backspace"  );
-    KeyBoard::key_code_to_name_map_.emplace(9  ,"Tab"        );
-    KeyBoard::key_code_to_name_map_.emplace(13 ,"Enter"      );
+::std::unordered_map<DWORD,::std::string> KeyBoard::key_code_to_name_map_={
 
-    KeyBoard::key_code_to_name_map_.emplace(19 ,"PauseBreak" );
-    KeyBoard::key_code_to_name_map_.emplace(20 ,"CapsLk"     );
+    {KeyCode_A,"A"},
+    {KeyCode_B,"B"},
+    {KeyCode_C,"C"},
+    {KeyCode_D,"D"},
+    {KeyCode_E,"E"},
+    {KeyCode_F,"F"},
+    {KeyCode_G,"G"},
+    {KeyCode_H,"H"},
+    {KeyCode_I,"I"},
+    {KeyCode_J,"J"},
+    {KeyCode_K,"K"},
+    {KeyCode_L,"L"},
+    {KeyCode_M,"M"},
+    {KeyCode_N,"N"},
+    {KeyCode_O,"O"},
+    {KeyCode_P,"P"},
+    {KeyCode_Q,"Q"},
+    {KeyCode_R,"R"},
+    {KeyCode_S,"S"},
+    {KeyCode_T,"T"},
+    {KeyCode_U,"U"},
+    {KeyCode_V,"V"},
+    {KeyCode_W,"W"},
+    {KeyCode_X,"X"},
+    {KeyCode_Y,"Y"},
+    {KeyCode_Z,"Z"},
 
-    KeyBoard::key_code_to_name_map_.emplace(27 ,"Esc"        );
+    {KeyCode_0,"0"},
+    {KeyCode_1,"1"},
+    {KeyCode_2,"2"},
+    {KeyCode_3,"3"},
+    {KeyCode_4,"4"},
+    {KeyCode_5,"5"},
+    {KeyCode_6,"6"},
+    {KeyCode_7,"7"},
+    {KeyCode_8,"8"},
+    {KeyCode_9,"9"},
 
-    KeyBoard::key_code_to_name_map_.emplace(32 ,"Space"      );
-    KeyBoard::key_code_to_name_map_.emplace(33 ,"PageUp"     );
-    KeyBoard::key_code_to_name_map_.emplace(34 ,"PageDown"   );
-    KeyBoard::key_code_to_name_map_.emplace(35 ,"End"        );
-    KeyBoard::key_code_to_name_map_.emplace(36 ,"Home"       );
-    KeyBoard::key_code_to_name_map_.emplace(37 ,"Left"       );
-    KeyBoard::key_code_to_name_map_.emplace(38 ,"Up"         );
-    KeyBoard::key_code_to_name_map_.emplace(39 ,"Right"      );
-    KeyBoard::key_code_to_name_map_.emplace(40 ,"Down"       );
-
-    KeyBoard::key_code_to_name_map_.emplace(44 ,"PrintScreen");
-    KeyBoard::key_code_to_name_map_.emplace(45 ,"Insert"     );
-    KeyBoard::key_code_to_name_map_.emplace(46 ,"Delete"     );
-
-    KeyBoard::key_code_to_name_map_.emplace(91 ,"LeftWin"    );
-    KeyBoard::key_code_to_name_map_.emplace(92 ,"RightWin"   );
-    KeyBoard::key_code_to_name_map_.emplace(93 ,"Application");
-
-    KeyBoard::key_code_to_name_map_.emplace(106,"Operator*"  );
-    KeyBoard::key_code_to_name_map_.emplace(107,"Operator+"  );
-
-    KeyBoard::key_code_to_name_map_.emplace(109,"Operator-"  );
-
-    KeyBoard::key_code_to_name_map_.emplace(111,"Operator/"  );
-    KeyBoard::key_code_to_name_map_.emplace(112,"F1"         );
-    KeyBoard::key_code_to_name_map_.emplace(113,"F2"         );
-    KeyBoard::key_code_to_name_map_.emplace(114,"F3"         );
-    KeyBoard::key_code_to_name_map_.emplace(115,"F4"         );
-    KeyBoard::key_code_to_name_map_.emplace(116,"F5"         );
-    KeyBoard::key_code_to_name_map_.emplace(117,"F6"         );
-    KeyBoard::key_code_to_name_map_.emplace(118,"F7"         );
-    KeyBoard::key_code_to_name_map_.emplace(119,"F8"         );
-    KeyBoard::key_code_to_name_map_.emplace(120,"F9"         );
-    KeyBoard::key_code_to_name_map_.emplace(121,"F10"        );
-    KeyBoard::key_code_to_name_map_.emplace(122,"F11"        );
-    KeyBoard::key_code_to_name_map_.emplace(123,"F12"        );
-
-    KeyBoard::key_code_to_name_map_.emplace(144,"NumLock"    );
-    KeyBoard::key_code_to_name_map_.emplace(145,"ScrollLock" );
-
-    KeyBoard::key_code_to_name_map_.emplace(160,"LeftShift"  );
-    KeyBoard::key_code_to_name_map_.emplace(161,"RightShfit" );
-    KeyBoard::key_code_to_name_map_.emplace(162,"LeftCtrl"   );
-    KeyBoard::key_code_to_name_map_.emplace(163,"RightCtrl"  );
-    KeyBoard::key_code_to_name_map_.emplace(164,"LeftAlt"    );
-    KeyBoard::key_code_to_name_map_.emplace(165,"RightAlt"   );
-
-    KeyBoard::key_code_to_name_map_.emplace(186,";"          );
-    KeyBoard::key_code_to_name_map_.emplace(187,"="          );
-    KeyBoard::key_code_to_name_map_.emplace(188,","          );
-    KeyBoard::key_code_to_name_map_.emplace(189,"-"          );
-    KeyBoard::key_code_to_name_map_.emplace(190,"."          );
-    KeyBoard::key_code_to_name_map_.emplace(191,"/"          );
-    KeyBoard::key_code_to_name_map_.emplace(192,"`"          );
-
-    KeyBoard::key_code_to_name_map_.emplace(219,"["          );
-    KeyBoard::key_code_to_name_map_.emplace(220,"|"          );
-    KeyBoard::key_code_to_name_map_.emplace(221,"]"          );
-    KeyBoard::key_code_to_name_map_.emplace(222,"\'"         );
-    return true;
-}
+    {KeyCode_Backspace         ,"Backspace"  },
+    {KeyCode_Tab               ,"Tab"        },
+    {KeyCode_Enter             ,"Enter"      },
+    {KeyCode_PauseBreak        ,"PauseBreak" },
+    {KeyCode_CapsLk            ,"CapsLk"     },
+    {KeyCode_Esc               ,"Esc"        },
+    {KeyCode_Space             ,"Space"      },
+    {KeyCode_PageUp            ,"PageUp"     },
+    {KeyCode_PageDown          ,"PageDown"   },
+    {KeyCode_End               ,"End"        },
+    {KeyCode_Home              ,"Home"       },
+    {KeyCode_Left              ,"Left"       },
+    {KeyCode_Up                ,"Up"         },
+    {KeyCode_Right             ,"Right"      },
+    {KeyCode_Down              ,"Down"       },
+    {KeyCode_PrintScreen       ,"PrintScreen"},
+    {KeyCode_Insert            ,"Insert"     },
+    {KeyCode_Delete            ,"Delete"     },
+    {KeyCode_LeftWin           ,"LeftWin"    },
+    {KeyCode_RightWin          ,"RightWin"   },
+    {KeyCode_Application       ,"Application"},
+    {KeyCode_Multiply          ,"Operator*"  },
+    {KeyCode_Plus              ,"Operator+"  },
+    {KeyCode_Minus             ,"Operator-"  },
+    {KeyCode_Divide            ,"Operator/"  },
+    {KeyCode_F1                ,"F1"         },
+    {KeyCode_F2                ,"F2"         },
+    {KeyCode_F3                ,"F3"         },
+    {KeyCode_F4                ,"F4"         },
+    {KeyCode_F5                ,"F5"         },
+    {KeyCode_F6                ,"F6"         },
+    {KeyCode_F7                ,"F7"         },
+    {KeyCode_F8                ,"F8"         },
+    {KeyCode_F9                ,"F9"         },
+    {KeyCode_F10               ,"F10"        },
+    {KeyCode_F11               ,"F11"        },
+    {KeyCode_F12               ,"F12"        },
+    {KeyCode_NumLock           ,"NumLock"    },
+    {KeyCode_ScrollLock        ,"ScrollLock" },
+    {KeyCode_LeftShift         ,"LeftShift"  },
+    {KeyCode_RightShfit        ,"RightShfit" },
+    {KeyCode_LeftCtrl          ,"LeftCtrl"   },
+    {KeyCode_RightCtrl         ,"RightCtrl"  },
+    {KeyCode_LeftAlt           ,"LeftAlt"    },
+    {KeyCode_RightAlt          ,"RightAlt"   },
+    {KeyCode_Semicolon         ,";"          },
+    {KeyCode_Equal             ,"="          },
+    {KeyCode_Comma             ,","          },
+    {KeyCode_Hyphen            ,"-"          },
+    {KeyCode_Period            ,"."          },
+    {KeyCode_Slash             ,"/"          },
+    {KeyCode_BackQuote         ,"`"          },
+    {KeyCode_LeftSquareBracket ,"["          },
+    {KeyCode_VerticalBar       ,"|"          },
+    {KeyCode_RightSquareBracket,"]"          },
+    {KeyCode_SingleQuote       ,"\'"         }
+};
 
 ::std::string const& KeyBoard::keyCodeToName(DWORD key_code){
     if(KeyBoard::key_code_to_name_map_.count(key_code)==0){

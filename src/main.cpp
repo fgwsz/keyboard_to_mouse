@@ -178,7 +178,7 @@ static LRESULT CALLBACK _keyBoardCallBack(int n_code, WPARAM w_param, LPARAM l_p
                 mouse_logger.println("MOUSE D_PIXEL AFTER  IS ",Mouse::current_dpixel_);
             }
             // <leader u>按下时(鼠标左/右键按下时) 鼠标左/右键松开
-            else if(p_key_data->vkCode=='U'/*un select*/){
+            else if(p_key_data->vkCode=='U'/*up*/){
                 mouse_key_auto_up();
             }
             // <leader o>按下时 鼠标左键单击

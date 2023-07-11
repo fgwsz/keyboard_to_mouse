@@ -17,6 +17,68 @@ private:
 
 bool KeyBoard::init_flag_=KeyBoard::_init();
 
+enum class KeyCode{
+    Backspace  =8  ,
+    Tab        =9  ,
+    Enter      =13 ,
+    PauseBreak =19 ,
+    CapsLk     =20 ,
+    Esc        =27 ,
+    Space      =32 ,
+    PageUp     =33 ,
+    PageDown   =34 ,
+    End        =35 ,
+    Home       =36 ,
+    Left       =37 ,
+    Up         =38 ,
+    Right      =39 ,
+    Down       =40 ,
+    PrintScreen=44 ,
+    Insert     =45 ,
+    Delete     =46 ,
+    LeftWin    =91 ,
+    RightWin   =92 ,
+    Application=93 ,
+    Multiply   =106,// Operator*
+    Plus       =107,// Operator+
+    Minus      =109,// Operator-
+    Divide     =111,// Operator/
+    F1         =112,
+    F2         =113,
+    F3         =114,
+    F4         =115,
+    F5         =116,
+    F6         =117,
+    F7         =118,
+    F8         =119,
+    F9         =120,
+    F10        =121,
+    F11        =122,
+    F12        =123,
+    NumLock    =144,
+    ScrollLock =145,
+    LeftShift  =160,
+    RightShfit =161,
+    LeftCtrl   =162,
+    RightCtrl  =163,
+    LeftAlt    =164,
+    RightAlt   =165,
+    Semicolon  =186,// ;
+    Equal      =187,// =
+    Comma      =188,// ,
+    Dash       =189,// -
+    FullStop   =190,// .
+    Slash      =191,// /
+    BackQuote  =192,// `
+// TODO
+               =219,// [
+               =220,// |
+               =221,// ]
+    SingleQuote=222,// '
+
+
+};
+
 bool KeyBoard::_init(){
     for(DWORD key_code='A';key_code<='Z';++key_code){
         KeyBoard::key_code_to_name_map_.emplace(key_code,::std::string(1,key_code));
@@ -51,12 +113,12 @@ bool KeyBoard::_init(){
     KeyBoard::key_code_to_name_map_.emplace(92 ,"RightWin"   );
     KeyBoard::key_code_to_name_map_.emplace(93 ,"Application");
 
-    KeyBoard::key_code_to_name_map_.emplace(106,"*"         );
-    KeyBoard::key_code_to_name_map_.emplace(107,"+"         );
+    KeyBoard::key_code_to_name_map_.emplace(106,"Operator*"  );
+    KeyBoard::key_code_to_name_map_.emplace(107,"Operator+"  );
 
-    KeyBoard::key_code_to_name_map_.emplace(109,"-"         );
+    KeyBoard::key_code_to_name_map_.emplace(109,"Operator-"  );
 
-    KeyBoard::key_code_to_name_map_.emplace(111,"/"         );
+    KeyBoard::key_code_to_name_map_.emplace(111,"Operator/"  );
     KeyBoard::key_code_to_name_map_.emplace(112,"F1"         );
     KeyBoard::key_code_to_name_map_.emplace(113,"F2"         );
     KeyBoard::key_code_to_name_map_.emplace(114,"F3"         );

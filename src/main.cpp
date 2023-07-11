@@ -199,15 +199,15 @@ static LRESULT CALLBACK _keyBoardCallBack(int n_code, WPARAM w_param, LPARAM l_p
                 mouse_logger.println("MOUSE RIGHT CLICK");
                 Mouse::mouseRightClick();
             }
-            // <leader s>按下时 鼠标左键按下
-            else if(p_key_data->vkCode=='S'/*select*/){
+            // <leader g>按下时 鼠标左键按下
+            else if(p_key_data->vkCode=='G'/*get*/){
                 mouse_key_auto_up();
                 mouse_logger.println("MOUSE LEFT DOWN");
                 Mouse::mouseLeftDown();
                 is_mouse_left_down=true;
             }
             // <leader i>按下时 鼠标右键按下
-            else if(p_key_data->vkCode=='I'/*invert select*/){
+            else if(p_key_data->vkCode=='I'/*invert*/){
                 mouse_key_auto_up();
                 mouse_logger.println("MOUSE RIGHT DOWN");
                 Mouse::mouseRightDown();

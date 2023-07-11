@@ -39,7 +39,7 @@
 
 `LeftAlt n` 鼠标滚轮下滑
 
-`LeftAlt s` 鼠标左键按下
+`LeftAlt g` 鼠标左键按下
 
 `LeftAlt i` 鼠标右键按下
 

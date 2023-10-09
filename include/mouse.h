@@ -44,7 +44,7 @@ private:
     static void _mouseWheel(DWORD scroll_amount);
 public:
     static DWORD current_dpixel_;
-    static constexpr DWORD default_dpixel_=16;
+    static constexpr DWORD default_dpixel_=32;
 };
 
 DWORD Mouse::current_dpixel_=Mouse::default_dpixel_;
